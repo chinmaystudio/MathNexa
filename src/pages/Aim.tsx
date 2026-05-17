@@ -4,7 +4,7 @@ import { Target, Flag, Rocket, ShieldCheck } from 'lucide-react';
 
 export const Aim = () => {
   return (
-    <div className="max-w-4xl mx-auto space-y-20 pb-20">
+    <div className="max-w-[1600px] mx-auto space-y-20 pb-20">
       <div className="text-center space-y-6">
         <label className="editorial-label">Philosophical Aim</label>
         <h1 className="editorial-heading text-5xl">Mission Protocol.</h1>
@@ -34,7 +34,7 @@ export const Aim = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.15 }}
-            className="math-card !p-12 border-slate-100 dark:border-white/5 relative group overflow-hidden"
+            className="glass !p-12 border-slate-100 dark:border-white/5 relative group overflow-hidden"
           >
             <div className="flex flex-col md:flex-row gap-12 items-start relative z-10">
               <div className="w-10 h-10 rounded-sm bg-brand/5 border border-brand/20 flex items-center justify-center shrink-0 group-hover:bg-brand group-hover:text-white transition-all duration-500">

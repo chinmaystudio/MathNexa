@@ -3,6 +3,12 @@ import { motion, AnimatePresence } from 'motion/react';
 import { ChevronDown, BookOpen, Info, CheckCircle2 } from 'lucide-react';
 import { MathRenderer } from '../components/math/MathRenderer';
 import { cn } from '@/src/lib/utils';
+import { FloatingMath } from '../components/layout/FloatingMath';
+import { PageId } from '../components/layout/Sidebar';
+
+interface TheoryProps {
+  onNavigate: (page: PageId) => void;
+}
 
 interface TheorySection {
   id: string;
@@ -91,8 +97,10 @@ export const Theory = ({ onNavigate }: { onNavigate: (page: any) => void }) => {
   const [openSection, setOpenSection] = useState<string | null>('intro');
 
   return (
-    <div className="max-w-4xl mx-auto space-y-16 pb-20">
-      <div className="text-center space-y-4">
+    <div className="max-w-[1600px] mx-auto space-y-16 pb-20 relative">
+      <FloatingMath />
+      <div className="relative z-10">
+        <div className="text-center space-y-4">
         <label className="editorial-label">Academic Foundations</label>
         <h1 className="editorial-heading text-5xl">The Theory of Flux.</h1>
         <p className="text-slate-500 dark:text-gray-400 font-serif italic text-lg max-w-2xl mx-auto">
@@ -111,8 +119,8 @@ export const Theory = ({ onNavigate }: { onNavigate: (page: any) => void }) => {
               className={cn(
                 "w-full flex items-center justify-between p-8 rounded-xl text-left transition-all duration-500 border relative overflow-hidden",
                 openSection === section.id 
-                  ? "bg-white dark:bg-editor-card border-brand shadow-2xl shadow-brand/10" 
-                  : "bg-white dark:bg-white/5 border-slate-100 dark:border-white/5 hover:border-brand/30"
+                  ? "glass border-brand shadow-2xl shadow-brand/10" 
+                  : "glass border-slate-100 dark:border-white/5 hover:border-brand/30"
               )}
             >
               <div className="flex items-center gap-6">
@@ -138,7 +146,7 @@ export const Theory = ({ onNavigate }: { onNavigate: (page: any) => void }) => {
                   transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
                   className="overflow-hidden"
                 >
-                  <div className="p-10 pb-12 text-slate-600 dark:text-gray-400 leading-relaxed font-serif text-lg bg-slate-50/50 dark:bg-white/[0.02] border-x border-b border-slate-100 dark:border-white/5 rounded-b-xl">
+                  <div className="p-10 pb-12 text-slate-600 dark:text-gray-400 leading-relaxed font-serif text-lg bg-blue-100 dark:bg-white/[0.02] border-x border-b border-blue-200 dark:border-white/5 rounded-b-xl">
                     {section.content}
                   </div>
                 </motion.div>
@@ -148,7 +156,7 @@ export const Theory = ({ onNavigate }: { onNavigate: (page: any) => void }) => {
         ))}
       </div>
 
-      <div className="bg-slate-900 dark:bg-brand rounded-[2.5rem] p-16 text-white overflow-hidden relative">
+      <div className="bg-brand dark:bg-brand-dark rounded-[2.5rem] p-16 text-white overflow-hidden relative">
         <div className="relative z-10 grid md:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
             <label className="text-[10px] uppercase tracking-[0.3em] text-white/60 font-bold">Assessment Module</label>
@@ -160,7 +168,7 @@ export const Theory = ({ onNavigate }: { onNavigate: (page: any) => void }) => {
           <div className="flex flex-col items-center md:items-end gap-6 text-sm font-bold">
             <button 
               onClick={() => onNavigate('pretest')}
-              className="px-12 py-5 bg-white text-brand rounded-sm font-bold uppercase tracking-[0.2em] text-[10px] hover:bg-slate-50 transition-colors shadow-2xl"
+              className="px-12 py-5 bg-blue-50 text-brand rounded-sm font-bold uppercase tracking-[0.2em] text-[10px] hover:bg-blue-100 transition-colors shadow-2xl"
             >
               Initiate Pretest
             </button>
@@ -171,7 +179,8 @@ export const Theory = ({ onNavigate }: { onNavigate: (page: any) => void }) => {
           </div>
         </div>
         <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-[80px] -mr-32 -mt-32" />
-        <div className="absolute bottom-0 left-0 w-64 h-64 bg-indigo-500/10 rounded-full blur-[80px] -ml-32 -mb-32" />
+        <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/5 rounded-full blur-[80px] -ml-32 -mb-32" />
+      </div>
       </div>
     </div>
   );

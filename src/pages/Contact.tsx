@@ -12,7 +12,7 @@ export const Contact = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto space-y-20 pb-20">
+    <div className="max-w-[1600px] mx-auto space-y-20 pb-20">
       <div className="text-center space-y-6">
         <label className="editorial-label">Communications Hub</label>
         <h1 className="editorial-heading text-5xl">Direct Inquiry.</h1>
@@ -24,7 +24,7 @@ export const Contact = () => {
       <div className="grid lg:grid-cols-12 gap-16">
         {/* Contact Info */}
         <div className="lg:col-span-5 space-y-10">
-          <div className="math-card !p-12 space-y-12 border border-slate-100 dark:border-white/5">
+          <div className="math-card !p-12 space-y-12 border border-blue-200 dark:border-white/5">
             <div className="flex items-start gap-8">
               <div className="p-3 bg-brand/5 border border-brand/20 rounded-sm text-brand">
                 <MapPin className="w-5 h-5" />
@@ -74,7 +74,7 @@ export const Contact = () => {
         {/* Contact Form */}
         <div className="lg:col-span-7">
           <motion.div 
-            className="math-card !p-12 h-full relative border border-slate-100 dark:border-white/5"
+            className="math-card !p-12 h-full relative border border-blue-200 dark:border-white/5"
           >
             <AnimatePresence mode="wait">
               {isSubmitted ? (
@@ -106,7 +106,7 @@ export const Contact = () => {
                         required
                         type="text" 
                         placeholder="Authorized Representative"
-                        className="w-full px-6 py-5 bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/5 rounded-xl focus:border-brand outline-none transition-all font-serif italic"
+                        className="w-full px-6 py-5 bg-blue-50 dark:bg-white/5 border border-blue-200 dark:border-white/5 rounded-xl focus:border-brand outline-none transition-all font-serif italic"
                       />
                     </div>
                     <div className="space-y-3">
@@ -115,14 +115,14 @@ export const Contact = () => {
                         required
                         type="email" 
                         placeholder="researcher@domain.edu"
-                        className="w-full px-6 py-5 bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/5 rounded-xl focus:border-brand outline-none transition-all font-serif italic"
+                        className="w-full px-6 py-5 bg-blue-50 dark:bg-white/5 border border-blue-200 dark:border-white/5 rounded-xl focus:border-brand outline-none transition-all font-serif italic"
                       />
                     </div>
                   </div>
 
                   <div className="space-y-3">
                     <label className="editorial-label">Query Classification</label>
-                    <select className="w-full px-6 py-5 bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/5 rounded-xl outline-none focus:border-brand transition-all appearance-none cursor-pointer font-serif italic">
+                    <select className="w-full px-6 py-5 bg-blue-50 dark:bg-white/5 border border-blue-200 dark:border-white/5 rounded-xl outline-none focus:border-brand transition-all appearance-none cursor-pointer font-serif italic">
                       <option>Academic Inquiry</option>
                       <option>Technical Deviation</option>
                       <option>Symbolic Engine Report</option>
@@ -136,7 +136,7 @@ export const Contact = () => {
                       required
                       placeholder="Detail your inquiry for the system..."
                       rows={6}
-                      className="w-full px-6 py-5 bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/5 rounded-xl focus:border-brand outline-none transition-all resize-none font-serif italic"
+                      className="w-full px-6 py-5 bg-blue-50 dark:bg-white/5 border border-blue-200 dark:border-white/5 rounded-xl focus:border-brand outline-none transition-all resize-none font-serif italic"
                     />
                   </div>
 

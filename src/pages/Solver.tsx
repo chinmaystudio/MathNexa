@@ -3,7 +3,7 @@ import { InteractiveSolver } from '../components/solver/InteractiveSolver';
 
 export const Solver = () => {
   return (
-    <div className="max-w-6xl mx-auto pb-20 px-4">
+    <div className="max-w-[1600px] mx-auto pb-20 px-4">
       <div className="space-y-12">
         <div className="text-center space-y-4">
           <label className="editorial-label">Computational Laboratory</label>

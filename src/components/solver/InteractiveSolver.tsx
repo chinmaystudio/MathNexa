@@ -13,6 +13,7 @@ import {
 import { getPyodide } from '../../services/pyodide';
 import { MathRenderer } from '../math/MathRenderer';
 import { GraphView } from './GraphView';
+import { ProcessingView } from './ProcessingView';
 import { cn } from '@/src/lib/utils';
 
 interface Step {
@@ -195,14 +196,14 @@ export const InteractiveSolver = () => {
     switch (currentStep) {
       case 0:
         return (
-          <div className="math-card space-y-8 p-10">
+          <div className="glass space-y-8 p-10">
             <div className="space-y-4">
                <label className="editorial-label">System Input Components</label>
                <div className="grid md:grid-cols-2 gap-8">
                  <div className="space-y-2">
                    <span className="text-[10px] font-mono opacity-50 uppercase">M(x, y)</span>
                    <input 
-                      className="w-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-white/10 p-4 rounded-lg font-mono text-xl outline-none focus:border-brand"
+                      className="w-full bg-blue-50 dark:bg-[#0a0a25] border border-blue-100 dark:border-brand/20 p-4 rounded-lg font-mono text-xl outline-none focus:border-brand"
                       value={mInput} 
                       onChange={(e) => setMInput(e.target.value)}
                    />
@@ -210,7 +211,7 @@ export const InteractiveSolver = () => {
                  <div className="space-y-2">
                    <span className="text-[10px] font-mono opacity-50 uppercase">N(x, y)</span>
                    <input 
-                      className="w-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-white/10 p-4 rounded-lg font-mono text-xl outline-none focus:border-brand"
+                      className="w-full bg-blue-50 dark:bg-[#0a0a25] border border-blue-100 dark:border-brand/20 p-4 rounded-lg font-mono text-xl outline-none focus:border-brand"
                       value={nInput} 
                       onChange={(e) => setNInput(e.target.value)}
                    />
@@ -222,7 +223,12 @@ export const InteractiveSolver = () => {
               disabled={!isEngineReady || isProcessing}
               className="w-full py-5 bg-brand text-white rounded-xl font-bold uppercase tracking-[0.2em] text-xs shadow-xl shadow-brand/20 hover:bg-brand-dark transition-all disabled:opacity-50"
             >
-              {isProcessing ? 'Initializing Engine...' : 'Begin Symbolic Derivation'}
+              {isProcessing ? (
+                <div className="flex flex-col items-center gap-4">
+                  <ProcessingView />
+                  <span>Initializing Engine...</span>
+                </div>
+              ) : 'Begin Symbolic Derivation'}
             </button>
             {!isEngineReady && (
               <p className="text-[10px] text-slate-400 text-center font-mono animate-pulse">Loading Python Runtime (Pyodide + SymPy)...</p>
@@ -239,7 +245,7 @@ export const InteractiveSolver = () => {
             onHint={applyHint}
           >
             <div className="space-y-6">
-              <div className="p-4 bg-slate-100/50 dark:bg-white/5 rounded-xl border border-slate-100 dark:border-white/5 flex justify-center">
+              <div className="p-4 bg-blue-100 dark:bg-white/5 rounded-xl border border-blue-200 dark:border-white/5 flex justify-center">
                  <MathRenderer math={`M = ${stepsData.partials.M_latex}, \\quad N = ${stepsData.partials.N_latex}`} block />
               </div>
               
@@ -275,11 +281,11 @@ export const InteractiveSolver = () => {
           >
             <div className="space-y-6">
               <div className="grid grid-cols-2 gap-4">
-                <div className="p-4 bg-slate-100/50 dark:bg-white/5 rounded-xl border-l-2 border-brand text-center">
+                <div className="p-4 bg-blue-50/20 dark:bg-white/5 rounded-xl border-l-2 border-brand text-center">
                   <div className="text-[10px] font-bold text-slate-400 uppercase mb-2">∂M / ∂y</div>
                   <MathRenderer math={stepsData.partials.dM_dy} block />
                 </div>
-                <div className="p-4 bg-slate-100/50 dark:bg-white/5 rounded-xl border-l-2 border-brand text-center">
+                <div className="p-4 bg-blue-50/20 dark:bg-white/5 rounded-xl border-l-2 border-brand text-center">
                   <div className="text-[10px] font-bold text-slate-400 uppercase mb-2">∂N / ∂x</div>
                   <MathRenderer math={stepsData.partials.dN_dx} block />
                 </div>
@@ -289,7 +295,7 @@ export const InteractiveSolver = () => {
                 <label className="editorial-label">Is the equation exact? (yes/no)</label>
                 <div className="flex gap-4">
                   <input 
-                    className="flex-1 bg-white dark:bg-slate-950 border border-slate-200 dark:border-white/10 p-4 rounded-lg font-mono text-lg outline-none focus:border-brand"
+                    className="flex-1 bg-blue-50 dark:bg-[#11112b] border border-slate-200 dark:border-indigo-500/20 p-4 rounded-lg font-mono text-lg outline-none focus:border-brand"
                     value={userData.isExact}
                     onChange={(e) => setUserData({...userData, isExact: e.target.value})}
                   />
@@ -322,7 +328,7 @@ export const InteractiveSolver = () => {
             hint="Integrating factor is computed as exp(∫ f(x) dx) or exp(∫ f(y) dy)."
           >
              <div className="space-y-6">
-               <div className="p-6 bg-slate-100/50 dark:bg-white/5 rounded-xl border border-slate-100 dark:border-white/5 space-y-4">
+               <div className="p-6 bg-blue-100 dark:bg-white/5 rounded-xl border border-blue-200 dark:border-white/5 space-y-4">
                   <p className="text-sm font-serif italic text-slate-500">
                     Condition: The expression <MathRenderer math={`\\frac{M_y - N_x}{N}`} /> depends only on {muInfo.type}.
                   </p>
@@ -353,7 +359,7 @@ export const InteractiveSolver = () => {
             hint="Solve the integral with respect to x, adding phi(y) as the constant of integration."
           >
             <div className="space-y-6">
-              <div className="p-6 bg-slate-100/50 dark:bg-white/5 rounded-xl border border-slate-100 dark:border-white/5 flex justify-center">
+              <div className="p-6 bg-blue-100 dark:bg-white/5 rounded-xl border border-blue-200 dark:border-white/5 flex justify-center">
                 <MathRenderer math={`\\int ${stepsData.solution.intM_str.includes('*') ? '(' + stepsData.solution.M_new + ')' : stepsData.solution.intM_str} dx`} block />
               </div>
 
@@ -380,7 +386,7 @@ export const InteractiveSolver = () => {
             hint="The difference between N and the partial derivative of ∫Mdx gives phi'(y)."
           >
             <div className="space-y-6">
-              <div className="p-6 bg-slate-100/50 dark:bg-white/5 rounded-xl border border-slate-100 dark:border-white/5">
+              <div className="p-6 bg-blue-100 dark:bg-white/5 rounded-xl border border-blue-200 dark:border-white/5">
                 <p className="text-xs uppercase tracking-widest font-bold text-slate-400 mb-4">Current Partial Gradient</p>
                 <div className="flex justify-center">
                    <MathRenderer math={`\\frac{\\partial}{\\partial y} \\left( ${stepsData.solution.intM} \\right) = ${stepsData.solution.d_intM_dy || '...'}`} block />
@@ -409,7 +415,7 @@ export const InteractiveSolver = () => {
             hint="Recover phi(y) by integrating its derivative with respect to y."
           >
             <div className="space-y-6">
-              <div className="p-6 bg-slate-100/50 dark:bg-white/5 rounded-xl border border-slate-100 dark:border-white/5 flex justify-center">
+              <div className="p-6 bg-blue-100 dark:bg-white/5 rounded-xl border border-blue-200 dark:border-white/5 flex justify-center">
                 <MathRenderer math={`\\int (${stepsData.solution.phi_prime}) dy`} block />
               </div>
 
@@ -470,7 +476,7 @@ export const InteractiveSolver = () => {
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="math-card !p-16 text-center space-y-10"
+            className="glass !p-16 text-center space-y-10 border border-slate-200 dark:border-white/5"
           >
              <div className="space-y-4">
                 <label className="editorial-label">System Success</label>
@@ -480,7 +486,7 @@ export const InteractiveSolver = () => {
                 </p>
              </div>
 
-             <div className="p-10 bg-slate-50 dark:bg-white/5 rounded-3xl border border-slate-100 dark:border-white/5">
+             <div className="p-10 glass rounded-3xl border border-blue-100 dark:border-white/5">
                 <label className="editorial-label !mb-6">Final General Solution</label>
                 <div className="text-3xl font-serif italic text-brand dark:text-white">
                   <MathRenderer math={stepsData.solution.solution} />
@@ -491,7 +497,7 @@ export const InteractiveSolver = () => {
 
              <button 
               onClick={reset}
-              className="px-10 py-5 border border-slate-200 dark:border-white/10 rounded-sm font-bold uppercase tracking-[0.3em] text-[10px] hover:bg-slate-900 dark:hover:bg-white hover:text-white dark:hover:text-black transition-all"
+              className="px-10 py-5 border border-blue-100 dark:border-white/10 rounded-sm font-bold uppercase tracking-[0.3em] text-[10px] hover:bg-brand-dark dark:hover:bg-blue-50 hover:text-white dark:hover:text-black transition-all"
              >
                Start New Session
              </button>
@@ -526,7 +532,7 @@ export const InteractiveSolver = () => {
                   key={s} 
                   className={cn(
                     "w-6 h-1 rounded-full transition-colors",
-                    currentStep === s ? "bg-brand" : s < currentStep ? "bg-brand/30" : "bg-slate-200 dark:bg-white/5"
+                    currentStep === s ? "bg-brand ring-4 ring-brand/10" : s < currentStep ? "bg-brand/30" : "bg-blue-100 dark:bg-white/5"
                   )}
                 />
               ))}
@@ -559,7 +565,7 @@ const StepContainer = ({ children, title, description, hint, onHint }: any) => {
   };
 
   return (
-    <div className="math-card !p-12 space-y-10 relative overflow-hidden">
+    <div className="glass !p-12 space-y-10 relative overflow-hidden">
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <label className="editorial-label !mb-0">Analytical Phase</label>
@@ -586,7 +592,7 @@ const StepContainer = ({ children, title, description, hint, onHint }: any) => {
             exit={{ opacity: 0, height: 0 }}
             className="p-6 bg-brand/5 border-l-2 border-brand rounded-r-xl"
           >
-            <p className="text-sm font-serif italic text-brand dark:text-indigo-300">
+            <p className="text-sm font-serif italic text-brand dark:text-gray-400">
               {hint}
             </p>
           </motion.div>
@@ -604,14 +610,19 @@ const StepContainer = ({ children, title, description, hint, onHint }: any) => {
 
 const InputField = ({ label, value, onChange, onCheck, status, suffix }: any) => {
   return (
-    <div className="space-y-3">
+    <motion.div 
+      initial={{ opacity: 0, x: -20 }}
+      animate={{ opacity: 1, x: 0 }}
+      className="space-y-3"
+    >
       <label className="editorial-label text-slate-400">{label}</label>
       <div className="flex gap-4">
         <div className="relative flex-1">
-          <input 
+          <motion.input 
+            whileFocus={{ scale: 1.01 }}
             className={cn(
-              "w-full bg-white dark:bg-slate-950 border p-5 rounded-xl font-mono text-xl outline-none transition-all",
-              status === 'correct' ? "border-green-500 bg-green-500/5" : status === 'wrong' ? "border-red-500 bg-red-500/5" : "border-slate-200 dark:border-white/10 focus:border-brand"
+              "w-full bg-blue-50 dark:bg-[#11112b] border p-5 rounded-xl font-mono text-xl outline-none transition-all",
+              status === 'correct' ? "border-green-500 bg-green-500/5" : status === 'wrong' ? "border-red-500 bg-red-500/5" : "border-blue-100 dark:border-brand/20 focus:border-brand shadow-sm shadow-brand/5"
             )}
             value={value}
             onChange={(e) => onChange(e.target.value)}
@@ -623,16 +634,18 @@ const InputField = ({ label, value, onChange, onCheck, status, suffix }: any) =>
             </div>
           )}
         </div>
-        <button 
+        <motion.button 
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
           onClick={onCheck}
           disabled={status === 'correct'}
           className={cn(
             "px-8 rounded-xl font-bold text-[10px] uppercase tracking-widest transition-all",
-            status === 'correct' ? "bg-green-500 text-white" : "bg-slate-900 dark:bg-white text-white dark:text-slate-900"
+            status === 'correct' ? "bg-green-500 text-white" : "bg-brand-dark dark:bg-blue-50 text-white dark:text-slate-900"
           )}
         >
           {status === 'correct' ? <CheckCircle2 className="w-5 h-5" /> : 'Check'}
-        </button>
+        </motion.button>
       </div>
       {status === 'wrong' && (
         <motion.p 
@@ -643,7 +656,7 @@ const InputField = ({ label, value, onChange, onCheck, status, suffix }: any) =>
           * Computational Error Detected. Verify Notation.
         </motion.p>
       )}
-    </div>
+    </motion.div>
   );
 };
 

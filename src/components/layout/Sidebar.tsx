@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/src/lib/utils';
 import { ThemeToggle } from './ThemeToggle';
+import { SidebarGlyph } from './SidebarGlyph';
 
 export type PageId = 'home' | 'aim' | 'theory' | 'solver' | 'pretest' | 'posttest' | 'references' | 'contributions' | 'contact';
 
@@ -44,7 +45,7 @@ export const Sidebar = ({ currentPage, onPageChange, isOpen, setIsOpen }: Sideba
       {/* Mobile Toggle */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="lg:hidden fixed top-4 left-4 z-50 p-2 rounded-lg bg-white dark:bg-slate-900 shadow-lg border border-slate-200 dark:border-slate-800"
+        className="lg:hidden fixed top-4 left-4 z-50 p-2 rounded-lg glass shadow-lg border border-blue-300 dark:border-white/10"
       >
         {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
       </button>
@@ -57,46 +58,42 @@ export const Sidebar = ({ currentPage, onPageChange, isOpen, setIsOpen }: Sideba
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setIsOpen(false)}
-            className="lg:hidden fixed inset-0 z-40 bg-slate-900/50 backdrop-blur-sm"
+            className="lg:hidden fixed inset-0 z-40 bg-blue-900/50 backdrop-blur-sm"
           />
         )}
       </AnimatePresence>
 
       {/* Sidebar */}
       <motion.aside
-        initial={false}
-        animate={{
-          x: isOpen ? 0 : -300,
-          transition: { type: 'spring', damping: 25, stiffness: 200 }
-        }}
         className={cn(
-          "fixed top-0 left-0 bottom-0 z-50 w-64 bg-white dark:bg-editor-nav border-r border-slate-200 dark:border-editor-border flex flex-col pt-20 lg:pt-8 overflow-y-auto transition-colors duration-300",
+          "fixed lg:sticky top-0 left-0 h-screen z-50 w-64 glass border-r border-blue-300 dark:border-white/5 flex flex-col transition-all duration-300",
           isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         )}
       >
-        <div className="px-8 mb-10 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-brand rounded-sm flex items-center justify-center shadow-lg shadow-brand/20">
-              <span className="font-serif italic text-2xl font-bold text-white">d∫</span>
+        <div className="pt-20 lg:pt-8 flex flex-col h-full">
+          <div className="px-8 mb-10 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <SidebarGlyph />
+              <span className="text-lg font-bold tracking-tight uppercase text-slate-900 dark:text-slate-100 italic">MathNexa</span>
             </div>
-            <span className="text-lg font-bold tracking-tight uppercase text-slate-900 dark:text-slate-100 italic">MathNexa</span>
+            <ThemeToggle />
           </div>
-          <ThemeToggle />
-        </div>
 
-        <nav className="flex-1 px-4 space-y-1">
+          <nav className="flex-1 px-4 space-y-1 overflow-y-auto">
           {navItems.map((item, index) => (
-            <button
+            <motion.button
               key={item.id}
+              whileHover={{ x: 5 }}
+              whileTap={{ scale: 0.98 }}
               onClick={() => {
                 onPageChange(item.id);
                 setIsOpen(false);
               }}
               className={cn(
-                "w-full flex items-center gap-4 px-5 py-3.5 rounded-lg transition-all duration-300 group text-sm font-medium",
+                "w-full flex items-center gap-4 px-5 py-3.5 rounded-lg transition-all duration-300 group text-sm font-medium relative",
                 currentPage === item.id
-                  ? "bg-slate-100 dark:bg-white/5 text-brand dark:text-white border-l-2 border-brand"
-                  : "text-slate-500 dark:text-slate-400 hover:text-brand dark:hover:text-white hover:bg-slate-50 dark:hover:bg-white/5"
+                  ? "bg-blue-200/50 dark:bg-brand/20 text-brand dark:text-white border-brand shadow-lg"
+                  : "text-slate-500 dark:text-slate-400 hover:text-brand dark:hover:text-white hover:bg-blue-100 dark:hover:bg-brand/10"
               )}
             >
               <span className={cn(
@@ -114,7 +111,7 @@ export const Sidebar = ({ currentPage, onPageChange, isOpen, setIsOpen }: Sideba
                   <div className="w-1.5 h-1.5 rounded-full bg-brand" />
                 </motion.div>
               )}
-            </button>
+            </motion.button>
           ))}
         </nav>
 
@@ -129,6 +126,7 @@ export const Sidebar = ({ currentPage, onPageChange, isOpen, setIsOpen }: Sideba
           <p className="text-[9px] text-slate-400 dark:text-gray-600 uppercase tracking-widest font-bold leading-relaxed">
             &copy; 2024 EDU-MATH SYSTEMS
           </p>
+        </div>
         </div>
       </motion.aside>
     </>

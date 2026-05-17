@@ -35,7 +35,7 @@ const references = [
 
 export const ReferencesList = () => {
   return (
-    <div className="max-w-5xl mx-auto space-y-16 pb-20">
+    <div className="max-w-[1600px] mx-auto space-y-16 pb-20">
       <div className="text-center space-y-4">
         <label className="editorial-label">Scholarly Archives</label>
         <h1 className="editorial-heading text-5xl">References.</h1>

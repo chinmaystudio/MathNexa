@@ -69,7 +69,7 @@ export const GraphView = ({ equation, className }: GraphViewProps) => {
         <div className={cn("w-3 h-3 rounded-full", isLoading ? "bg-brand/20 animate-pulse" : "bg-green-500/20")} />
       </div>
 
-      <div className="h-96 w-full bg-slate-50/50 dark:bg-slate-950/50 rounded-xl border border-slate-100 dark:border-white/5 p-4 relative group">
+      <div className="h-96 w-full bg-blue-100 dark:bg-slate-950/50 rounded-xl border border-blue-200 dark:border-white/5 p-4 relative group">
         <ResponsiveContainer width="100%" height="100%">
           <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
             <CartesianGrid strokeDasharray="3 3" vertical={true} horizontal={true} stroke="currentColor" className="text-slate-200 dark:text-white/5" />
@@ -95,7 +95,7 @@ export const GraphView = ({ equation, className }: GraphViewProps) => {
               content={({ active, payload }) => {
                 if (active && payload && payload.length) {
                   return (
-                    <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/10 p-3 rounded-lg shadow-xl text-[10px] font-mono">
+                    <div className="bg-blue-50 dark:bg-slate-900 border border-blue-100 dark:border-white/10 p-3 rounded-lg shadow-xl text-[10px] font-mono">
                       <div className="text-brand font-bold mb-1 uppercase tracking-tighter">Phase Coordinate</div>
                       <div className="flex gap-4">
                         <div>X: {Number(payload[0].value).toFixed(2)}</div>
@@ -128,7 +128,7 @@ export const GraphView = ({ equation, className }: GraphViewProps) => {
 
       <div className="flex flex-wrap gap-3">
         {cValues.map((c, i) => (
-           <div key={c} className="flex items-center gap-2 px-3 py-1.5 bg-slate-50 dark:bg-white/5 rounded-full border border-slate-100 dark:border-white/5">
+           <div key={c} className="flex items-center gap-2 px-3 py-1.5 bg-blue-100 dark:bg-white/5 rounded-full border border-blue-200 dark:border-white/5">
               <div className="w-2 h-2 rounded-full" style={{ backgroundColor: colors[i % colors.length] }} />
               <span className="text-[10px] font-mono font-bold text-slate-500 uppercase tracking-widest">C={c}</span>
            </div>

@@ -12,6 +12,7 @@ import {
 import { MathRenderer } from '../components/math/MathRenderer';
 import { cn } from '@/src/lib/utils';
 import confetti from 'canvas-confetti';
+import { DynamicBackground } from '../components/layout/DynamicBackground';
 
 interface Question {
   id: number;
@@ -113,11 +114,14 @@ export const Quiz = ({ type }: { type: 'pretest' | 'posttest' }) => {
 
   if (isFinished) {
     return (
-      <div className="max-w-2xl mx-auto py-24">
+      <div className="max-w-[1600px] mx-auto py-24 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-40">
+           <DynamicBackground />
+        </div>
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          className="math-card text-center p-16 space-y-10 border border-slate-100 dark:border-white/5"
+          className="glass text-center p-16 space-y-10 border border-slate-100 dark:border-white/5 relative z-10"
         >
           <div className="space-y-4">
              <label className="editorial-label">Evaluation Complete</label>
@@ -138,7 +142,7 @@ export const Quiz = ({ type }: { type: 'pretest' | 'posttest' }) => {
 
           <button 
             onClick={resetQuiz}
-            className="w-full py-6 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-sm font-bold uppercase tracking-[0.3em] text-[10px] flex items-center justify-center gap-3 hover:bg-black dark:hover:bg-slate-100 transition-all shadow-xl"
+            className="w-full py-6 bg-brand-dark dark:bg-blue-50 text-white dark:text-slate-900 rounded-sm font-bold uppercase tracking-[0.3em] text-[10px] flex items-center justify-center gap-3 hover:bg-brand dark:hover:bg-blue-100 transition-all shadow-xl"
           >
             <RotateCcw className="w-4 h-4" />
             Re-Initialize System
@@ -152,7 +156,7 @@ export const Quiz = ({ type }: { type: 'pretest' | 'posttest' }) => {
   const progress = ((currentQuestion + 1) / mockQuestions.length) * 100;
 
   return (
-    <div className="max-w-4xl mx-auto space-y-12 pb-20">
+    <div className="max-w-[1600px] mx-auto space-y-12 pb-20">
       <div className="flex items-center justify-between px-4">
         <div className="space-y-1">
           <label className="editorial-label !mb-1">Assessment Phase</label>
@@ -160,7 +164,7 @@ export const Quiz = ({ type }: { type: 'pretest' | 'posttest' }) => {
         </div>
         <div className={cn(
           "flex items-center gap-3 px-6 py-3 rounded-xl font-mono font-bold text-xs uppercase tracking-widest transition-all shadow-sm border",
-          timeLeft < 30 ? "bg-red-500/10 border-red-500/20 text-red-500" : "bg-white dark:bg-white/5 border-slate-100 dark:border-white/5 text-slate-500 dark:text-gray-400"
+          timeLeft < 30 ? "bg-red-500/10 border-red-500/20 text-red-500" : "bg-blue-50/50 dark:bg-white/5 border-blue-100 dark:border-white/5 text-slate-500 dark:text-gray-400"
         )}>
           <Timer className="w-4 h-4" />
           Time Remaining: {Math.floor(timeLeft / 60)}:{String(timeLeft % 60).padStart(2, '0')}
@@ -189,7 +193,7 @@ export const Quiz = ({ type }: { type: 'pretest' | 'posttest' }) => {
               <span className="text-[10px] font-bold text-brand uppercase tracking-[0.3em]">Query {String(currentQuestion + 1).padStart(2, '0')}</span>
               <h2 className="editorial-heading text-3xl leading-tight text-slate-900 dark:text-white">{question.text}</h2>
               {question.math && (
-                <div className="p-10 bg-slate-50 dark:bg-slate-950/50 rounded-xl border border-slate-100 dark:border-white/5 flex justify-center">
+                <div className="p-10 bg-blue-100 dark:bg-slate-950/50 rounded-xl border border-blue-200 dark:border-white/5 flex justify-center">
                   <MathRenderer math={question.math} block />
                 </div>
               )}
@@ -205,7 +209,7 @@ export const Quiz = ({ type }: { type: 'pretest' | 'posttest' }) => {
                     "w-full p-8 text-left rounded-xl border transition-all duration-300 font-serif italic text-lg flex items-center justify-between group",
                     selectedOption === i 
                       ? (i === question.correctAnswer ? "bg-green-500/5 border-green-500/30 text-green-700 dark:text-green-400" : "bg-red-500/5 border-red-500/30 text-red-700 dark:text-red-400")
-                      : (showResult && i === question.correctAnswer ? "border-green-500/30 bg-green-500/5 text-green-700 dark:text-green-400" : "border-slate-100 dark:border-white/5 bg-white dark:bg-white/5 hover:border-brand/40 group")
+                      : (showResult && i === question.correctAnswer ? "border-green-500/30 bg-green-500/5 text-green-700 dark:text-green-400" : "border-blue-200 dark:border-white/5 bg-blue-100 dark:bg-white/5 hover:border-brand/40 group")
                   )}
                 >
                   <div className="flex items-center gap-6">
@@ -213,7 +217,7 @@ export const Quiz = ({ type }: { type: 'pretest' | 'posttest' }) => {
                       "w-6 h-6 rounded-sm flex items-center justify-center font-mono text-[10px] font-bold border",
                       selectedOption === i 
                         ? (i === question.correctAnswer ? "bg-green-500 border-green-500 text-white" : "bg-red-500 border-red-500 text-white")
-                        : (showResult && i === question.correctAnswer ? "bg-green-500 border-green-500 text-white" : "bg-slate-50 dark:bg-white/10 dark:border-white/5 text-slate-400 group-hover:border-brand/50 group-hover:text-brand")
+                        : (showResult && i === question.correctAnswer ? "bg-green-500 border-green-500 text-white" : "bg-blue-200 dark:bg-white/10 dark:border-white/5 text-slate-400 group-hover:border-brand/50 group-hover:text-brand")
                     )}>
                       {String.fromCharCode(65 + i)}
                     </div>
@@ -242,7 +246,7 @@ export const Quiz = ({ type }: { type: 'pretest' | 'posttest' }) => {
                   </div>
                   <button 
                     onClick={handleNext}
-                    className="w-full py-6 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-sm font-bold uppercase tracking-[0.3em] text-[10px] flex items-center justify-center gap-3 hover:bg-black dark:hover:bg-slate-100 transition-all shadow-xl"
+                    className="w-full py-6 bg-brand-dark dark:bg-blue-50 text-white dark:text-slate-900 rounded-sm font-bold uppercase tracking-[0.3em] text-[10px] flex items-center justify-center gap-3 hover:bg-brand dark:hover:bg-blue-100 transition-all shadow-xl"
                   >
                     {currentQuestion === mockQuestions.length - 1 ? "Complete Examination" : "Next Inquiry"}
                     <ArrowRight className="w-4 h-4" />
