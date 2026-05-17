@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+@import "katex/dist/katex.min.css";
+
+
+@theme {
+  --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Roboto Slab", serif;
+
+  --color-brand: #6366f1;
+  --color-brand-light: #818cf8;
+  --color-brand-dark: #4f46e5;
+
+  --color-editor-bg: #0A0A0C;
+  --color-editor-card: #121216;
+  --color-editor-nav: #0F0F12;
+  --color-editor-border: rgba(255, 255, 255, 0.1);
+}
+
+@layer base {
+  body {
+    @apply font-sans antialiased bg-[#fafafa] text-slate-900 transition-colors duration-300;
+  }
+
+  .dark body {
+    @apply bg-editor-bg text-slate-100;
+  }
+}
+
+@layer components {
+  .glass {
+    @apply bg-white/70 backdrop-blur-md border border-white/20 shadow-xl;
+  }
+
+  .dark .glass {
+    @apply bg-slate-900/70 border-white/10;
+  }
+
+  .math-card {
+    @apply p-8 rounded-2xl transition-all duration-300 bg-white dark:bg-editor-card border border-slate-200 dark:border-editor-border shadow-sm dark:shadow-none;
+  }
+
+  .editorial-heading {
+    @apply font-serif italic tracking-tight font-bold;
+  }
+
+  .editorial-label {
+    @apply text-[10px] uppercase tracking-[0.2em] text-slate-500 dark:text-slate-500 font-bold mb-4 block underline underline-offset-8;
+  }
+
+  .editorial-btn {
+    @apply px-6 py-3 uppercase tracking-widest text-xs font-bold transition-all duration-200;
+  }
+}
+
+/* MathJax/KaTeX styles */
+.katex-display {
+  @apply my-4 overflow-x-auto overflow-y-hidden py-2;
+}
+

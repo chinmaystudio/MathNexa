@@ -1,0 +1,8 @@
+{
+  "name": "MathNexa",
+  "description": "An interactive educational platform for learning and solving differential equations with step-by-step guidance and visualizations.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
