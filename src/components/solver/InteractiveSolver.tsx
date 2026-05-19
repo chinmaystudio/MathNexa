@@ -25,6 +25,7 @@ export const InteractiveSolver = () => {
   const [mInput, setMInput] = useState('3*x^2 + 4*x*y');
   const [nInput, setNInput] = useState('2*x^2 + 2*y');
   const [isEngineReady, setIsEngineReady] = useState(false);
+  const [engineError, setEngineError] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   
   const [currentStep, setCurrentStep] = useState(0); // 0: input, 1-7: interactive steps
@@ -45,7 +46,12 @@ export const InteractiveSolver = () => {
   const [muInfo, setMuInfo] = useState<any>(null);
 
   useEffect(() => {
-    getPyodide().then(() => setIsEngineReady(true));
+    getPyodide()
+      .then(() => setIsEngineReady(true))
+      .catch(err => {
+        console.error(err);
+        setEngineError("Failed to initialize mathematical engine. Please check your connection and refresh.");
+      });
   }, []);
 
   const handleStart = async () => {
@@ -230,8 +236,13 @@ export const InteractiveSolver = () => {
                 </div>
               ) : 'Begin Symbolic Derivation'}
             </button>
-            {!isEngineReady && (
+            {!isEngineReady && !engineError && (
               <p className="text-[10px] text-slate-400 text-center font-mono animate-pulse">Loading Python Runtime (Pyodide + SymPy)...</p>
+            )}
+            {engineError && (
+              <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-center">
+                 <p className="text-xs text-red-500 font-mono italic">{engineError}</p>
+              </div>
             )}
           </div>
         );

@@ -20,8 +20,9 @@ interface GraphViewProps {
 }
 
 export const GraphView = ({ equation, className }: GraphViewProps) => {
-  const [plotData, setPlotData] = useState<any>(null);
+    const [plotData, setPlotData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [cValues] = useState<number[]>([-4, -2, 0, 2, 4]);
 
   const colors = ['#6366f1', '#ec4899', '#f59e0b', '#10b981', '#8b5cf6'];
@@ -31,6 +32,8 @@ export const GraphView = ({ equation, className }: GraphViewProps) => {
     
     const fetchPlotData = async () => {
       setIsLoading(true);
+      setError(null);
+      setPlotData(null);
       try {
         const pyodide = await getPyodide();
         const xMin = -8;
@@ -43,12 +46,14 @@ export const GraphView = ({ equation, className }: GraphViewProps) => {
         
         if (result.error) {
           console.error(result.error);
+          setError("Calculation error");
           return;
         }
 
         setPlotData(result);
       } catch (e) {
         console.error(e);
+        setError("Phase engine error");
       } finally {
         setIsLoading(false);
       }
@@ -63,10 +68,10 @@ export const GraphView = ({ equation, className }: GraphViewProps) => {
         <div className="space-y-1">
           <label className="editorial-label !mb-0">Solution Manifold</label>
           <div className="text-[10px] uppercase font-mono text-slate-400">
-            {isLoading ? 'Computing Vectors...' : 'Dynamic Phase Trajectories'}
+            {isLoading ? 'Computing Vectors...' : error ? <span className="text-red-400">{error}</span> : 'Dynamic Phase Trajectories'}
           </div>
         </div>
-        <div className={cn("w-3 h-3 rounded-full", isLoading ? "bg-brand/20 animate-pulse" : "bg-green-500/20")} />
+        <div className={cn("w-3 h-3 rounded-full", isLoading ? "bg-brand/20 animate-pulse" : error ? "bg-red-500/20" : "bg-green-500/20")} />
       </div>
 
       <div className="h-96 w-full bg-blue-100 dark:bg-slate-950/50 rounded-xl border border-blue-200 dark:border-white/5 p-4 relative group">

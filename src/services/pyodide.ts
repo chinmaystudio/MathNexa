@@ -11,26 +11,33 @@ declare global {
 }
 
 let pyodideInstance: PyodideInterface | null = null;
-let isInitializing = false;
+let initializationPromise: Promise<PyodideInterface> | null = null;
 
-export const getPyodide = async () => {
+export const getPyodide = async (): Promise<PyodideInterface> => {
   if (pyodideInstance) return pyodideInstance;
-  if (isInitializing) {
-    while (!pyodideInstance) {
-      await new Promise(resolve => setTimeout(resolve, 100));
-    }
-    return pyodideInstance;
-  }
+  if (initializationPromise) return initializationPromise;
 
-  isInitializing = true;
-  try {
-    const pyodide = await window.loadPyodide({
-      indexURL: "https://cdn.jsdelivr.net/pyodide/v0.26.4/full/"
-    });
-    await pyodide.loadPackage(['sympy', 'numpy']);
-    
-    // Initialize standard functions
-    await pyodide.runPythonAsync(`
+  initializationPromise = (async () => {
+    try {
+      // Check if the script tag has loaded loadPyodide into window
+      let retries = 0;
+      while (typeof window.loadPyodide !== "function" && retries < 50) {
+        await new Promise(resolve => setTimeout(resolve, 100));
+        retries++;
+      }
+
+      if (typeof window.loadPyodide !== "function") {
+        throw new Error("Pyodide script failed to load into window object.");
+      }
+
+      const pyodide = await window.loadPyodide({
+        indexURL: "https://cdn.jsdelivr.net/pyodide/v0.26.4/full/"
+      });
+      
+      await pyodide.loadPackage(['sympy', 'numpy']);
+      
+      // Initialize standard functions
+      await pyodide.runPythonAsync(`
 import sympy as sp
 import numpy as np
 import json
@@ -182,10 +189,15 @@ def get_plot_data(u_expr_str, C_vals, x_min, x_max, num_points):
              results[str(c)] = []
     return json.dumps(results)
     `);
-    
-    pyodideInstance = pyodide;
-    return pyodide;
-  } finally {
-    isInitializing = false;
-  }
+      
+      pyodideInstance = pyodide;
+      return pyodide;
+    } catch (error) {
+      console.error("Pyodide initialization failed:", error);
+      initializationPromise = null; // Allow retry
+      throw error;
+    }
+  })();
+
+  return initializationPromise;
 };
